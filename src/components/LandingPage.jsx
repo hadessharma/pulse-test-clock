@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Timer, ArrowRight, ShieldCheck } from 'lucide-react';
+import Particles from './magicui/Particles';
+import BlurFade from './magicui/BlurFade';
 
 const LandingPage = () => {
   const [roomId, setRoomId] = useState('');
@@ -14,63 +16,57 @@ const LandingPage = () => {
   };
 
   return (
-    <div style={{ 
-      height: '100vh', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      padding: '20px',
-      background: 'radial-gradient(circle at top right, #1e1b4b, #020617)'
-    }}>
-      <div className="glass-card animate-fade-in" style={{ 
-        maxWidth: '450px', 
-        width: '100%', 
-        padding: '40px',
-        textAlign: 'center'
-      }}>
-        <div style={{ 
-          background: 'rgba(99, 102, 241, 0.1)', 
-          width: '64px', 
-          height: '64px', 
-          borderRadius: '16px', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center',
-          margin: '0 auto 24px'
-        }}>
-          <Timer size={32} color="#6366f1" />
-        </div>
-        
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '12px' }}>ZenTime</h1>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '32px' }}>
-          Isolated rooms for test invigilators. Manage rolling students with precision.
-        </p>
+    <div className="relative min-h-screen flex flex-col items-center justify-center p-5 bg-radial-[at_top_right] from-indigo-950 to-slate-950 overflow-hidden">
+      {/* Magic UI Particles Background */}
+      <Particles
+        className="absolute inset-0 z-0"
+        quantity={200}
+        ease={80}
+        color="#ffffff"
+        refresh
+      />
 
-        <form onSubmit={handleJoin} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div style={{ textAlign: 'left' }}>
-            <label style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>
-              Enter Room ID
-            </label>
-            <input 
-              type="text" 
-              className="input-field" 
-              placeholder="e.g. Exam-Hall-A"
-              value={roomId}
-              onChange={(e) => setRoomId(e.target.value)}
-              style={{ width: '100%' }}
-              required
-            />
+      <BlurFade delay={0.25} inView>
+        <div className="glass-card relative z-10 max-w-[450px] w-full p-10 text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div className="bg-indigo-500/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/5">
+            <Timer size={32} className="text-accent-primary" />
           </div>
           
-          <button type="submit" className="btn-primary" style={{ justifyContent: 'center', padding: '14px' }}>
-            Enter Room <ArrowRight size={18} />
-          </button>
-        </form>
+          <h1 className="text-4xl sm:text-5xl mb-3 tracking-tight">ZenTime</h1>
+          <p className="text-slate-400 mb-8 max-w-[300px] mx-auto text-sm">
+            Isolated dashboard for test invigilators. Manage rolling students with precision.
+          </p>
 
-        <div style={{ marginTop: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: 'var(--accent-success)', fontSize: '0.875rem' }}>
-          <ShieldCheck size={16} /> 24h Auto-Cleanup Enabled
+          <form onSubmit={handleJoin} className="flex flex-col gap-4">
+            <div className="text-left">
+              <label className="text-xs font-medium text-slate-500 mb-2 block uppercase tracking-wider">
+                Room ID
+              </label>
+              <input 
+                type="text" 
+                className="input-field py-3.5" 
+                placeholder="e.g. Exam-Hall-A"
+                value={roomId}
+                onChange={(e) => setRoomId(e.target.value)}
+                required
+              />
+            </div>
+            
+            <button type="submit" className="btn-primary py-3.5 text-base group">
+              Enter Room 
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+            </button>
+          </form>
+
+          <div className="mt-8 flex items-center justify-center gap-2 text-accent-success text-xs font-medium">
+            <ShieldCheck size={14} /> 24h Auto-Cleanup Enabled
+          </div>
         </div>
+      </BlurFade>
+
+      {/* Footer info */}
+      <div className="absolute bottom-8 text-slate-600 text-[10px] uppercase tracking-widest pointer-events-none">
+        ZenTime © 2026 • Premium Invigilation Tool
       </div>
     </div>
   );

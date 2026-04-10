@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { UserPlus, Clock, ChevronLeft, LayoutDashboard, Users } from 'lucide-react';
+import { UserPlus, Clock, ChevronLeft, LayoutDashboard, Users, Sparkles } from 'lucide-react';
 import { getRoomData, saveStudent, removeStudent } from '../utils/storage';
 import CandidateCard from './CandidateCard';
+import BlurFade from './magicui/BlurFade';
 
 const Dashboard = () => {
   const { roomId } = useParams();
   const [students, setStudents] = useState([]);
   const [name, setName] = useState('');
-  const [duration, setDuration] = useState('60'); // default 60 mins
+  const [duration, setDuration] = useState('60');
 
   useEffect(() => {
     setStudents(getRoomData(roomId));
@@ -28,7 +29,8 @@ const Dashboard = () => {
     };
 
     saveStudent(roomId, newStudent);
-    setStudents([...students, newStudent]);
+    // Add to top for visibility
+    setStudents([newStudent, ...students]);
     setName('');
   };
 
@@ -38,106 +40,92 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="min-h-screen flex flex-col bg-bg-deep text-white">
       {/* Header */}
-      <header className="glass-card" style={{ 
-        margin: '20px', 
-        padding: '16px 24px', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'space-between',
-        borderRadius: '12px'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <Link to="/" style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center' }}>
+      <header className="glass-card m-5 p-4 sm:px-8 border-white/5 flex flex-wrap items-center justify-between gap-4 sticky top-5 z-20">
+        <div className="flex items-center gap-4">
+          <Link to="/" className="text-slate-500 hover:text-white transition-colors p-1">
             <ChevronLeft size={20} />
           </Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ background: 'var(--accent-primary)', p: '8px', borderRadius: '8px', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <LayoutDashboard size={20} color="white" />
+          <div className="flex items-center gap-3">
+            <div className="bg-accent-primary w-10 h-10 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/20">
+              <LayoutDashboard size={20} className="text-white" />
             </div>
             <div>
-              <h1 style={{ fontSize: '1.25rem' }}>Room: {roomId.toUpperCase()}</h1>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Invigilator Dashboard</p>
+              <h1 className="text-lg leading-tight uppercase font-bold tracking-tight">Room: {roomId}</h1>
+              <p className="text-[10px] text-slate-500 uppercase tracking-widest font-medium">Test Invigilator Dashboard</p>
             </div>
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '24px', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Users size={16} /> {students.length} Active Candidates
+        <div className="flex gap-6 text-slate-400 text-xs font-medium uppercase tracking-wider items-center">
+          <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
+            <Users size={14} className="text-accent-primary" />
+            <span>{students.length} Candidates</span>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main style={{ flex: 1, padding: '0 20px 40px' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <main className="flex-1 px-5 pb-10">
+        <div className="max-w-7xl mx-auto w-full">
           
           {/* Add Candidate Form */}
-          <div className="glass-card animate-fade-in" style={{ padding: '24px', marginBottom: '32px' }}>
-            <h2 style={{ fontSize: '1rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <UserPlus size={18} color="var(--accent-primary)" /> Register New Candidate
-            </h2>
-            <form onSubmit={handleAddStudent} style={{ display: 'grid', gridTemplateColumns: '1fr 200px auto', gap: '16px', alignItems: 'end' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '6px' }}>Candidate Name</label>
-                <input 
-                  type="text" 
-                  className="input-field" 
-                  placeholder="Full Name" 
-                  style={{ width: '100%' }}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '6px' }}>Test Length (Minutes)</label>
-                <div style={{ position: 'relative' }}>
+          <BlurFade delay={0.1}>
+            <div className="glass-card p-6 mb-10 border-white/5">
+              <h2 className="text-sm font-bold mb-6 flex items-center gap-2 uppercase tracking-tighter text-slate-200">
+                <Sparkles size={16} className="text-indigo-400" /> New Candidate Entry
+              </h2>
+              <form onSubmit={handleAddStudent} className="grid grid-cols-1 md:grid-cols-[1fr_200px_auto] gap-6 items-end">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Full Name</label>
                   <input 
-                    type="number" 
+                    type="text" 
                     className="input-field" 
-                    placeholder="60" 
-                    style={{ width: '100%', paddingRight: '40px' }}
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
-                    min="1"
+                    placeholder="E.g. Alexander Pierce" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     required
                   />
-                  <Clock size={16} style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                 </div>
-              </div>
-              <button type="submit" className="btn-primary" style={{ height: '46px' }}>
-                Start Test
-              </button>
-            </form>
-          </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Duration</label>
+                  <div className="relative">
+                    <input 
+                      type="number" 
+                      className="input-field pr-12" 
+                      placeholder="60" 
+                      value={duration}
+                      onChange={(e) => setDuration(e.target.value)}
+                      min="1"
+                      required
+                    />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-600 uppercase">Min</span>
+                  </div>
+                </div>
+                <button type="submit" className="btn-primary h-[46px] min-w-[160px] shadow-indigo-500/10">
+                  <UserPlus size={18} />
+                  Start Timer
+                </button>
+              </form>
+            </div>
+          </BlurFade>
 
           {/* Active Candidates Grid */}
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
-            gap: '20px' 
-          }}>
-            {students.map(student => (
-              <CandidateCard 
-                key={student.id} 
-                student={student} 
-                onDelete={() => handleDelete(student.id)} 
-              />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {students.map((student, index) => (
+              <BlurFade key={student.id} delay={0.05 * index}>
+                <CandidateCard 
+                  student={student} 
+                  onDelete={() => handleDelete(student.id)} 
+                />
+              </BlurFade>
             ))}
             
             {students.length === 0 && (
-              <div style={{ 
-                gridColumn: '1 / -1', 
-                padding: '80px', 
-                textAlign: 'center', 
-                color: 'var(--text-muted)',
-                opacity: 0.5
-              }}>
-                <Users size={48} style={{ marginBottom: '16px' }} />
-                <p>No active candidates in this room.</p>
+              <div className="col-span-full flex flex-col items-center justify-center py-20 bg-white/[0.02] border border-dashed border-white/5 rounded-2xl grayscale opacity-30">
+                <Users size={48} className="mb-4" />
+                <p className="text-sm font-medium uppercase tracking-widest">Awaiting Candidates</p>
               </div>
             )}
           </div>
