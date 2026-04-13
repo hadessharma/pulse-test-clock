@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-deep: #020617;
-  --color-bg-surface: rgba(15, 23, 42, 0.6);
-  --color-accent-primary: #6366f1;
-  --color-accent-secondary: #0ea5e9;
-  --color-accent-success: #10b981;
-  --color-accent-warning: #f59e0b;
-  --color-accent-danger: #ef4444;
-  --color-border-glass: rgba(255, 255, 255, 0.1);
+  --color-bg-deep: #0f172a; /* Slate 900 */
+  --color-bg-surface: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
+  --color-accent-primary: #3b82f6; /* Blue 500 - Professional blue */
+  --color-accent-secondary: #0f172a; /* Darker secondary */
+  --color-accent-success: #10b981; /* Emerald 500 */
+  --color-accent-warning: #f59e0b; /* Amber 500 */
+  --color-accent-danger: #ef4444; /* Red 500 */
+  --color-border-glass: rgba(255, 255, 255, 0.05);
   
   --font-main: "Inter", sans-serif;
-  --font-display: "Outfit", sans-serif;
+  --font-display: "Inter", sans-serif; /* Use Inter for display too for a cleaner look */
   
-  --shadow-premium: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --shadow-premium: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
   
-  --radius-xl: 16px;
-  --radius-lg: 12px;
+  --radius-xl: 12px;
+  --radius-lg: 8px;
 }
 
 @layer base {
@@ -33,14 +33,14 @@
 
 @layer components {
   .glass-card {
-    @apply bg-bg-surface backdrop-blur-xl border border-border-glass rounded-xl shadow-premium;
+    @apply bg-bg-surface backdrop-blur-md border border-border-glass rounded-xl shadow-premium;
   }
   
   .input-field {
-    @apply bg-white/5 border border-white/10 rounded-lg p-3 text-white font-main outline-none transition-colors focus:border-accent-primary w-full;
+    @apply bg-slate-950/50 border border-slate-700/50 rounded-lg p-3 text-white font-main outline-none transition-all focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 w-full;
   }
   
   .btn-primary {
-    @apply bg-linear-to-br from-accent-primary to-accent-secondary text-white px-5 py-2.5 rounded-lg font-semibold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(99,102,241,0.4)] flex items-center gap-2 justify-center;
+    @apply bg-accent-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg font-semibold cursor-pointer transition-all hover:shadow-[0_4px_12px_rgba(59,130,246,0.3)] flex items-center gap-2 justify-center active:scale-[0.98];
   }
 }

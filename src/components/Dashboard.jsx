@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { UserPlus, Clock, ChevronLeft, LayoutDashboard, Users, Sparkles } from 'lucide-react';
+import { UserPlus, Clock, ChevronLeft, LayoutDashboard, Users } from 'lucide-react';
 import { getRoomData, saveStudent, removeStudent } from '../utils/storage';
 import CandidateCard from './CandidateCard';
 import BlurFade from './magicui/BlurFade';
@@ -48,20 +48,20 @@ const Dashboard = () => {
             <ChevronLeft size={20} />
           </Link>
           <div className="flex items-center gap-3">
-            <div className="bg-accent-primary w-10 h-10 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/20">
+            <div className="bg-accent-primary w-10 h-10 rounded-lg flex items-center justify-center shadow-md">
               <LayoutDashboard size={20} className="text-white" />
             </div>
             <div>
-              <h1 className="text-lg leading-tight uppercase font-bold tracking-tight">Room: {roomId}</h1>
-              <p className="text-[10px] text-slate-500 uppercase tracking-widest font-medium">Test Invigilator Dashboard</p>
+              <h1 className="text-lg leading-tight uppercase font-bold tracking-tight text-white">ROOM: {roomId}</h1>
+              <p className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-bold">Session Monitoring Dashboard</p>
             </div>
           </div>
         </div>
 
-        <div className="flex gap-6 text-slate-400 text-xs font-medium uppercase tracking-wider items-center">
-          <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
+        <div className="flex gap-6 text-slate-400 text-xs font-bold uppercase tracking-wider items-center">
+          <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-full border border-white/5">
             <Users size={14} className="text-accent-primary" />
-            <span>{students.length} Candidates</span>
+            <span>{students.length} Registered</span>
           </div>
         </div>
       </header>
@@ -73,23 +73,23 @@ const Dashboard = () => {
           {/* Add Candidate Form */}
           <BlurFade delay={0.1}>
             <div className="glass-card p-6 mb-10 border-white/5">
-              <h2 className="text-sm font-bold mb-6 flex items-center gap-2 uppercase tracking-tighter text-slate-200">
-                <Sparkles size={16} className="text-indigo-400" /> New Candidate Entry
+              <h2 className="text-sm font-bold mb-6 flex items-center gap-2 uppercase tracking-widest text-slate-400">
+                Member Registration
               </h2>
               <form onSubmit={handleAddStudent} className="grid grid-cols-1 md:grid-cols-[1fr_200px_auto] gap-6 items-end">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Full Name</label>
+                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Candidate Name</label>
                   <input 
                     type="text" 
                     className="input-field" 
-                    placeholder="E.g. Alexander Pierce" 
+                    placeholder="Enter full name" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Duration</label>
+                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Time Limit (Min)</label>
                   <div className="relative">
                     <input 
                       type="number" 
@@ -103,9 +103,9 @@ const Dashboard = () => {
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-600 uppercase">Min</span>
                   </div>
                 </div>
-                <button type="submit" className="btn-primary h-[46px] min-w-[160px] shadow-indigo-500/10">
+                <button type="submit" className="btn-primary h-[48px] min-w-[180px]">
                   <UserPlus size={18} />
-                  Start Timer
+                  Register Candidate
                 </button>
               </form>
             </div>
